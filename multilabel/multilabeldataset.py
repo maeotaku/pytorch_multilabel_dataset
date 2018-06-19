@@ -8,9 +8,8 @@ import torchvision
 import numpy as np
 from PIL import Image
 
-from Files import *
-#from HierarchyManagement import *
-from ClassHierarchy import *
+from .files import *
+from .classhierarchy import *
 
 def pil_loader(path):
     # open path as file to avoid ResourceWarning (https://github.com/python-pillow/Pillow/issues/835)
@@ -48,7 +47,7 @@ def build_file_dictionary(root, root_has_subfolders):
                     file_list.append(os.path.join(class_folder, filename))
     return file_list
 
-class MutiLabelDataset(Dataset):
+class MultiLabelDataset(Dataset):
 
     def add_class_on_level(self, class_level_name, class_name):
         return self.hierarchy.add_class_by_name(class_level_name, class_name)
@@ -133,7 +132,7 @@ class MutiLabelDataset(Dataset):
         fmt_str += '{0}{1}'.format(tmp, self.target_transform.__repr__().replace('\n', '\n' + ' ' * len(tmp)))
         return fmt_str
 
-class XMLMutiLabelDataset(MutiLabelDataset):
+class XMLMultiLabelDataset(MultiLabelDataset):
 
     #code for xml
     def build_file_attrs(self, file_path):
@@ -156,7 +155,7 @@ class XMLMutiLabelDataset(MutiLabelDataset):
             return None
 
     def __init__(self, level_list, root, hierarchy=None, transform=None, target_transform=None, loader=default_loader):
-        MutiLabelDataset.__init__(self, level_list, root, IMG_EXTENSIONS, hierarchy, loader,
+        MultiLabelDataset.__init__(self, level_list, root, IMG_EXTENSIONS, hierarchy, loader,
                                         metadata_extension=".xml",
                                         transform=transform,
                                         target_transform=target_transform,
