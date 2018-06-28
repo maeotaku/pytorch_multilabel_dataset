@@ -61,7 +61,7 @@ class MultiLabelDataset(Dataset):
 
     def make_dataset(self, metadata_extension, extensions):
         samples = []
-        for complete_img_filename in self.file_list[:1000]:
+        for complete_img_filename in self.file_list:
             if has_file_allowed_extension(complete_img_filename, extensions):
                 name, _ = os.path.splitext(complete_img_filename)
                 complete_label_filename = os.path.join(self.root, name + metadata_extension)
