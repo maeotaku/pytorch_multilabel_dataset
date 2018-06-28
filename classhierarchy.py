@@ -77,6 +77,10 @@ class ClassHierarchy():
     def get_children_idx_at_class_level_idx(self, parent_level_idx, parent_idx, children_level_idx):
         return np.unique(np.array(self.hierarchy_matrix[self.hierarchy_matrix[:,parent_level_idx]==parent_idx][:,children_level_idx]))
 
+    def get_class_level_size(self, idx):
+        return len(self.class_names[self.class_level_names[idx]])
+
+
     def __repr__(self):
         fmt_str = 'Hierarchy of Classes ' + self.__class__.__name__ + '\n'
         fmt_str += 'Number of Class Levels: {}\n'.format(self.class_level_size)
