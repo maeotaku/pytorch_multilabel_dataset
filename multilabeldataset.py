@@ -32,18 +32,21 @@ def default_loader(path):
     else:
         return pil_loader(path)
 
+def is_image_file(filename):
+    return has_file_allowed_extension(filename, IMG_EXTENSIONS) and os.path.getsize(filename) > 0
+
 def build_file_dictionary(root, root_has_subfolders):
     file_list = []
     if not root_has_subfolders:
         for path, _, files in os.walk(root):
             for filename in files:
-                if is_image_file(filename):
+                if is_image_file(os.path.join(path, filename)):
                     file_list.append(os.path.join(path, filename))
     else:
         for class_name in get_immediate_subdirectories(root):
             class_folder = os.path.join(root, class_name)
             for filename in get_file_list(class_folder):
-                if is_image_file(filename):
+                if is_image_file(os.path.join(class_folder, filename)):
                     file_list.append(os.path.join(class_folder, filename))
     return file_list
 
