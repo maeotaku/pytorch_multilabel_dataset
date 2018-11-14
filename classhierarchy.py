@@ -80,6 +80,14 @@ class ClassHierarchy():
     def get_class_level_size(self, idx):
         return len(self.class_names[self.class_level_names[idx]])
 
+    def get_hierarchy_mask(self, parent_level, children_level):
+        parent_size = len(self.class_names[self.class_level_names[parent_level]])
+        children_size = len(self.class_names[self.class_level_names[children_level]])
+        mask = np.zeros((parent_size, children_size))
+        children_idxs = self.hierarchy_matrix[:, children_level]
+        parent_idxs = self.hierarchy_matrix[:, parent_level]
+        mask[parent_idxs,children_idxs] = 1.0
+        return mask
 
     def __repr__(self):
         fmt_str = 'Hierarchy of Classes ' + self.__class__.__name__ + '\n'
@@ -87,4 +95,5 @@ class ClassHierarchy():
         fmt_str += 'Class levels:\n'
         for i in self.class_level_names:
             fmt_str += '    {}:{}\n'.format(i, len(self.class_names[i]))
+        fmt_str += str(self.hierarchy_matrix)
         return fmt_str
